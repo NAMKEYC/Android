@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.example.plantapp.ui.main.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment2_to_profileFragment2"
+            app:destination="@id/profileFragment2" />
+        <action
+            android:id="@+id/action_homeFragment2_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment2"
+        android:name="com.example.plantapp.ui.main.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment2_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
+        <action
+            android:id="@+id/action_profileFragment2_to_articleDetailFragment"
+            app:destination="@id/articleDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.example.plantapp.ui.main.article.ArticleFragment"
+        android:label="ArticleFragment">
+        <action
+            android:id="@+id/action_articleFragment_to_articleDetailFragment"
+            app:destination="@id/articleDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/articleDetailFragment"
+        android:name="com.example.plantapp.ui.main.article.ArticleDetailFragment"
+        android:label="ArticleDetailFragment">
+        <argument
+            android:name="article"
+            app:argType="com.example.plantapp.data.model.Article" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.plantapp.ui.main.MainFragment"
+        android:label="MainFragment">
+        <action
+            android:id="@+id/action_mainFragment_to_articleDetailFragment"
+            app:destination="@id/articleDetailFragment" />
+
+        <action
+            android:id="@+id/action_mainFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_speciesFragment"
+            app:destination="@id/speciesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_specieDetailFragment"
+            app:destination="@id/specieDetailFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_addPlantFragment"
+            app:destination="@id/addPlantFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/speciesFragment"
+        android:name="com.example.plantapp.ui.main.specie.SpeciesFragment"
+        android:label="fragment_species"
+        tools:layout="@layout/fragment_species">
+        <action
+            android:id="@+id/action_speciesFragment_to_speciesDetailListFragment"
+            app:destination="@id/speciesDetailListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/speciesDetailListFragment"
+        android:name="com.example.plantapp.ui.main.specie.SpeciesDetailListFragment"
+        android:label="fragment_species_detail_list"
+        tools:layout="@layout/fragment_species_detail_list">
+        <argument
+            android:name="type"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_speciesDetailListFragment_to_specieDetailFragment"
+            app:destination="@id/specieDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/specieDetailFragment"
+        android:name="com.example.plantapp.ui.main.specie.SpecieDetailFragment"
+        android:label="SpecieDetailFragment">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPlantFragment"
+        android:name="com.example.plantapp.ui.add_plants.AddPlantFragment"
+        android:label="AddPlantFragment" />
+
+
+</navigation>

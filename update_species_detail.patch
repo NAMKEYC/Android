@@ -1,0 +1,203 @@
+Index: app/src/main/java/com/example/plantapp/ui/main/specie/SpeciesViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/plantapp/ui/main/specie/SpeciesViewModel.kt b/app/src/main/java/com/example/plantapp/ui/main/specie/SpeciesViewModel.kt
+--- a/app/src/main/java/com/example/plantapp/ui/main/specie/SpeciesViewModel.kt	(revision df1eeee68936b3fceb48e37a84bf4e0dacd80a7c)
++++ b/app/src/main/java/com/example/plantapp/ui/main/specie/SpeciesViewModel.kt	(date 1685900669507)
+@@ -40,7 +40,11 @@
+                         val index = document.data["scientific_name"].toString().indexOf(" ")
+                         val type = if (index == -1) {
+                             document.data["scientific_name"].toString()
+-                                .substring(1, document.data["scientific_name"].toString().toCharArray().size - 1)
++                                .substring(
++                                    1,
++                                    document.data["scientific_name"].toString()
++                                        .toCharArray().size - 1
++                                )
+                         } else {
+                             document.data["scientific_name"].toString().substring(1, index)
+                         }
+@@ -48,7 +52,8 @@
+                         newList.add(
+                             Specie(
+                                 type,
+-                                document.data["scientific_name"].toString().toCharArray()[1].toString().uppercase(),
++                                document.data["scientific_name"].toString()
++                                    .toCharArray()[1].toString().uppercase(),
+                                 document.toObject()
+                             )
+                         )
+@@ -68,8 +73,7 @@
+     }
+ 
+     private fun addRealtimeSpecies() {
+-        db.collection("species").addSnapshotListener {
+-                _, _ ->
++        db.collection("species").addSnapshotListener { _, _ ->
+             _species.value = mutableListOf()
+             getSpecies()
+         }
+@@ -79,7 +83,8 @@
+         list.forEach {
+             viewModelScope.launch(Dispatchers.IO) {
+                 try {
+-                    val data = plantRepository?.getDetailSpecie(it.specie.id, "sk-jSI0645f5cdfebfd3920")
++                    val data =
++                        plantRepository?.getDetailSpecie(it.specie.id, "sk-jSI0645f5cdfebfd3920")
+                     Log.d("TAG", "getDetailSpecies: ${data?.id}")
+                     db.collection("detail_specie").document(System.currentTimeMillis().toString())
+                         .set(data!!)
+@@ -99,44 +104,23 @@
+ 
+     fun getDetailSpecies(list: MutableList<Specie?>) {
+         _specieDetailList.value = mutableListOf()
+-        if (list.size >= 10) {
+-            list.subList(0, 10).forEach { item ->
+-                db.collection("detail_specie")
+-                    .whereEqualTo("id", item?.specie?.id)
+-                    .get()
+-                    .addOnSuccessListener { documents ->
+-                        try {
+-                            for (document in documents) {
+-                                val newList = _specieDetailList.value
+-                                newList?.add(document.toObject())
+-                                newList?.let { list ->
+-                                    _specieDetailList.postValue(list)
+-                                }
+-                            }
+-                        } catch (ex: Exception) {
+-                            Log.e("TAG", "getDetailSpecies: ${ex.message}")
+-                        }
+-                    }
+-            }
+-        } else {
+-            list.forEach { item ->
+-                db.collection("detail_specie")
+-                    .whereEqualTo("id", item?.specie?.id)
+-                    .get()
+-                    .addOnSuccessListener { documents ->
+-                        try {
+-                            for (document in documents) {
+-                                val newList = _specieDetailList.value
+-                                newList?.add(document.toObject())
+-                                newList?.let { list ->
+-                                    _specieDetailList.postValue(list)
+-                                }
+-                            }
+-                        } catch (ex: Exception) {
+-                            Log.e("TAG", "getDetailSpecies: ${ex.message}")
+-                        }
++        list.forEach { item ->
++            db.collection("detail_specie")
++                .whereEqualTo("id", item?.specie?.id)
++                .get()
++                .addOnSuccessListener { documents ->
++                    try {
++                        for (document in documents) {
++                            val newList = _specieDetailList.value
++                            newList?.add(document.toObject())
++                            newList?.let { list ->
++                                _specieDetailList.postValue(list)
++                            }
++                        }
++                    } catch (ex: Exception) {
++                        Log.e("TAG", "getDetailSpecies: ${ex.message}")
+                     }
+-            }
++                }
+         }
+     }
+ }
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision df1eeee68936b3fceb48e37a84bf4e0dacd80a7c)
++++ b/.idea/misc.xml	(date 1685898969590)
+@@ -1,4 +1,3 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ExternalStorageConfigurationManager" enabled="true" />
+   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+Index: app/src/main/res/layout/item_photo.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/item_photo.xml b/app/src/main/res/layout/item_photo.xml
+--- a/app/src/main/res/layout/item_photo.xml	(revision df1eeee68936b3fceb48e37a84bf4e0dacd80a7c)
++++ b/app/src/main/res/layout/item_photo.xml	(date 1685900265596)
+@@ -20,7 +20,7 @@
+         android:background="#99FFFFFF"
+         android:paddingHorizontal="@dimen/_8sdp"
+         android:text="#Mini"
+-        android:textColor="#2E382FCC"
++        android:textColor="#C9000000"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintStart_toStartOf="parent" />
+ 
+Index: app/src/main/java/com/example/plantapp/ui/main/specie/SpeciesFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/plantapp/ui/main/specie/SpeciesFragment.kt b/app/src/main/java/com/example/plantapp/ui/main/specie/SpeciesFragment.kt
+--- a/app/src/main/java/com/example/plantapp/ui/main/specie/SpeciesFragment.kt	(revision df1eeee68936b3fceb48e37a84bf4e0dacd80a7c)
++++ b/app/src/main/java/com/example/plantapp/ui/main/specie/SpeciesFragment.kt	(date 1685900376322)
+@@ -47,7 +47,10 @@
+         super.onViewCreated(view, savedInstanceState)
+         val service = ApiClient.plantService
+         val mainRepository = PlantRepository(service)
+-        viewModel = ViewModelProvider(requireActivity(), ViewModelFactory(mainRepository))[SpeciesViewModel::class.java]
++        viewModel = ViewModelProvider(
++            requireActivity(),
++            ViewModelFactory(mainRepository)
++        )[SpeciesViewModel::class.java]
+ 
+         initView()
+         initEvent()
+@@ -62,7 +65,7 @@
+                 specie?.let { item ->
+                     if (index == 0) {
+                         listWithOutDuplicate.add(item)
+-                    } else if (index != -1 && !it[index - 1]?.type.equals(item.type)) {
++                    } else if (index != -1 && listWithOutDuplicate.find { specie -> specie.type == item.type } == null) {
+                         listWithOutDuplicate.add(specie)
+                     }
+                 }
+@@ -78,7 +81,11 @@
+ 
+     private fun initEvent() {
+         adapter.onItemClick = {
+-            findNavController().navigate(SpeciesFragmentDirections.actionSpeciesFragmentToSpeciesDetailListFragment(it))
++            findNavController().navigate(
++                SpeciesFragmentDirections.actionSpeciesFragmentToSpeciesDetailListFragment(
++                    it
++                )
++            )
+         }
+ 
+         binding.imvBack.setOnClickListener {
+Index: app/src/main/java/com/example/plantapp/ui/main/specie/SpecieDetailFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/plantapp/ui/main/specie/SpecieDetailFragment.kt b/app/src/main/java/com/example/plantapp/ui/main/specie/SpecieDetailFragment.kt
+--- a/app/src/main/java/com/example/plantapp/ui/main/specie/SpecieDetailFragment.kt	(revision df1eeee68936b3fceb48e37a84bf4e0dacd80a7c)
++++ b/app/src/main/java/com/example/plantapp/ui/main/specie/SpecieDetailFragment.kt	(date 1685899052291)
+@@ -58,8 +58,7 @@
+ 
+         val sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE) ?: return
+         var liked = sharedPref.getString("liked", "")
+-
+-
++        
+         viewModel.specieDetailList.observe(viewLifecycleOwner) {
+             if (id == -1) return@observe
+             val detail = it.find { item -> item.id == id } ?: return@observe
