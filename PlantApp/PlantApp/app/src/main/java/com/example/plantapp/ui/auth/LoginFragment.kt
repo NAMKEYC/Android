@@ -90,6 +90,9 @@ class LoginFragment : Fragment() {
                         Log.e("TAG", "signInWithEmail:failure: ${ex.message}")
                     }
                 }
+                else{
+                    Log.e("TAG", "email or password is incorrect");
+                }
             }
             tvSignUp.setOnClickListener {
                 findNavController().navigate(R.id.action_loginFragment_to_signUpFragment)

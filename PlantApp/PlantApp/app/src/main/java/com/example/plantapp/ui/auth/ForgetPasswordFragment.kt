@@ -47,11 +47,11 @@ class ForgetPasswordFragment : Fragment() {
                 if (isValidEmail) {
                     Firebase.auth.sendPasswordResetEmail(emailAddress)
                         .addOnSuccessListener {
-                            Toast.makeText(requireContext(), "Vui lòng kiểm tra email để thay đổi mật khẩu", Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), "Please check email to change new password!", Toast.LENGTH_LONG).show()
                         }
                         .addOnFailureListener { Log.d("TAG", "addOnFailureListener: ${it.message}") }
                 } else {
-                    Toast.makeText(requireContext(), "Sai email", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "email is incorrect", Toast.LENGTH_LONG).show()
                 }
             }
         }
